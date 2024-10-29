@@ -1,25 +1,20 @@
 import {Button, Image, StyleSheet, Text, View} from 'react-native';
-import {useState} from "react";
 import ModalAcoes from "@/components/ModalAcoes";
-
-
-
 export default function Cabecalho({usuario,imagemUrl}:any) {
 
     return (
         <View style={styles.cabecalho}>
-            <div style={styles.conteiner}>
+            <View style={styles.conteiner}>
 
             <Image style={styles.icone} source={{
                 uri: `${imagemUrl}`
             }}/>
-                <div style={styles.conteinerInterno}>
-                <Text style={styles.boasvindas} >Ola,{usuario}</Text>
-                 <Text style={styles.subtitulo} >seu <span style={styles.destaque}>Balanço</span>  </Text>
-                </div>
-
+                <View style={styles.conteinerInterno}>
+                    <Text style={styles.boasvindas} >Ola,{usuario}</Text>896/
+                    <Text style={styles.subtitulo} >seu <span style={styles.destaque}>Balanço</span>  </Text>
+                </View>
                 <ModalAcoes />
-                </div>
+            </View>
 
         </View>
     );
@@ -38,6 +33,8 @@ const styles = StyleSheet.create({
     },
     conteiner: {
         display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: "space-around"
     },
     subtitulo: {
