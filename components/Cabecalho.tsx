@@ -1,4 +1,4 @@
-import {Button, Image, StyleSheet, Text, View} from 'react-native';
+import {Button, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import ModalAcoes from "@/components/ModalAcoes";
 export default function Cabecalho({usuario,imagemUrl}:any) {
 
@@ -15,7 +15,6 @@ export default function Cabecalho({usuario,imagemUrl}:any) {
                 </View>
                 <ModalAcoes />
             </View>
-
         </View>
     );
 }

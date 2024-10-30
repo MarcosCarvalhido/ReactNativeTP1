@@ -1,20 +1,45 @@
-import {Button, StyleSheet, Text, View, Modal, TextInput} from 'react-native';
-import {useState} from "react";
+import {Button, StyleSheet, Text, View, Modal, TextInput, FlatList, TouchableOpacity} from 'react-native';
+import {useContext, useState} from "react";
 import Acao from "@/components/Acao";
+import {APIContext} from "@/components/navigation/APIContext";
 export default function ModalAcoes() {
     const [modalAberto,setModalAberto] = useState(false)
+    // const {acoes,chamarAPI,banana}: any  = useContext(APIContext)
+
+    const [acoes, setAcoes] = useState("No data")
+    async function chamarAPI() :Promise<void> {
+        const key = "4f489eb2f31d979d122952933afb26ad"
+        const url = `https://api.marketstack.com/v1/eod?access_key=${key}&symbols=AAPL`
+        const options = {
+            method: "GET",
+        };
+
+        try {
+            const response = await fetch(url, options);
+            const result = await response.json();
+            setAcoes(result)
+            console.log(result.data);
+            console.log("result",result.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
+
         <View style={styles.modal}>
+
             <Button title={'Minhas \n Transações'} color={"darkgray"} onPress={() => setModalAberto(true)}/>
             <Modal visible={modalAberto} animationType="fade" onRequestClose={() => (!modalAberto)}>
                 <Button title={"Voltar"} color={"darkgray"} onPress={() => setModalAberto(!modalAberto)}/>
+                <TouchableOpacity activeOpacity={0.5} onPress={chamarAPI}>
+                    <Text style={{color: 'gray'}}>Atualizar Dados</Text>
+                </TouchableOpacity>
                 <View style={styles.pesquisaConteiner}>
                     <TextInput style={styles.barraPesquisa} placeholder="Pesquise aqui..."/>
                     <Button color={"darkgray"} title={"pesquisar"}/>
                 </View>
-                <View style={styles.acoesLista}>
-                    <Acao contaSigla={'APPL'} contaNome={'Apple Inc'} ContaValor={'191,24'} contaGanho={'$2,90(1,53%)'} contaLogo={'https://yt3.googleusercontent.com/M6YRDTT4TuycM6WeCoAC3UBre6Yu_i7RnK6bIs8ysWM1PBJFBvA9uOryoK_kF_4UeHKvTpPdLCY=s900-c-k-c0x00ffffff-no-rj'}/>
-                </View>
+                <FlatList  style={styles.acoesLista} data={acoes} renderItem={(item)=> <Acao props={item} contaLogo={'https://cdn-icons-png.flaticon.com/512/8347/8347452.png'}/>}/>
             </Modal>
         </View>
 );
